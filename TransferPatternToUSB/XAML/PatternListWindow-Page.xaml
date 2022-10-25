@@ -1,0 +1,24 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d">
+
+    <StackPanel Padding="20">
+        <TextBlock Grid.Row="0">
+            <Run FontSize="24" Foreground="#FFFC5185">Nalinu Pattern Copy</Run><LineBreak/>
+            <Run>Select the pattern(s) and which USB to copy them to.</Run>
+        </TextBlock>
+        <ListBox Name="ListPatterns" Grid.Row="1">
+            <ListBoxItem Content="data" />
+            <ListBoxItem Content="data2" />
+        </ListBox>
+        <ComboBox Name="ComboDrives" Grid.Row="2">
+            <ComboBoxItem Content="D: Drive" />
+        </ComboBox>
+        <Button Name="ButtonOk" Content="Ok" Grid.Row="3"
+            Click="OnClickOk" ClickMode="Press"
+            Width="90%" />
+    </StackPanel>
+</Page>
