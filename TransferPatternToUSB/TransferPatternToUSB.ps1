@@ -19,8 +19,7 @@ Begin {
     }
 
     Function Get-USBDrive {
-        $Drive = Get-CimInstance -Namespace root/Cimv2 -ClassName 'Win32_diskdrive' -Filter "InterfaceType = 'USB'"
-        $Partitions = Get-CimInstance -Namespace root/Cimv2 -ClassName 'Win32_diskPartition'
+
         $LogicalDisks = Get-CimInstance -Namespace root/Cimv2 -ClassName 'Win32_LogicalDisk' | Where-Object { $_.Description -match "Removable" }
         If ($LogicalDisks) {
             $PSDrives = Get-PSDrive
@@ -97,60 +96,13 @@ Begin {
             }
         }
     }
-    Function Show-PatternDialog {
-        param(
-            $PatternList
-        )
-        Add-Type -AssemblyName System.Windows.Forms
-        [System.Windows.Forms.Application]::EnableVisualStyles()
-        
-        $Form                            = New-Object system.Windows.Forms.Form
-        $Form.ClientSize                 = New-Object System.Drawing.Point(400,537)
-        $Form.text                       = "Form"
-        $Form.TopMost                    = $false
-        
-        $ListBox1                        = New-Object system.Windows.Forms.ListBox
-        $ListBox1.text                   = "listBox"
-        $ListBox1.width                  = 364
-        $ListBox1.height                 = 309
-        $PatternList.Keys | ForEach-Object {[void] $ListBox1.Items.Add($_)}
-        $ListBox1.location               = New-Object System.Drawing.Point(12,23)
-        
-        <#
-        $TextBox1                        = New-Object system.Windows.Forms.TextBox
-        $TextBox1.multiline              = $false
-        $TextBox1.width                  = 358
-        $TextBox1.height                 = 20
-        $TextBox1.location               = New-Object System.Drawing.Point(14,373)
-        $TextBox1.Font                   = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
-        #>
-
-        $OkButton                        = New-Object System.Windows.Forms.Button
-        $OkButton.width                  = 200
-        $OkButton.height                 = 40
-        $OkButton.DialogResult           = [System.Windows.Forms.DialogResult]::Ok
-        $OkButton.Text                   = "&Ok"
-        $OkButton.location               = New-Object System.Drawing.Point(14,410)
-        $Form.controls.AddRange(@($ListBox1,$OkButton))#,$TextBox1,$OkButton))
-        
-        $ListBox1.Add_SelectedIndexChanged({ ListIndexChanged })
-        
-        function ListIndexChanged { 
-            $TextBox1.Text = $ListBox1.Text
-        }
-        
-        $DialogResult = $Form.ShowDialog()
-        If ($DialogResult -eq [System.Windows.Forms.DialogResult]::Ok) {
-            $ListBox1.SelectedItem
-        }
-    }
 
     Function Read-PatternChoice {
         param(
             $PatternList,
             [System.Management.Automation.PSDriveInfo[]]$USBDrives
         )
-        #$Dialog = Show-PatternDialog -PatternList $PatternList
+
         $Dialog = Show-PatternXamlDialog -PatternList $PatternList -USBDrives $USBDrives
         $Dialog
     }
@@ -218,8 +170,5 @@ Process {
         Write-Host "$Pattern $($Choice.Drive.Name)"
         Copy-PatternToUSB -Pattern $PatternList.$Pattern -Drive $Choice.Drive.Name
     }
-    #$choice.Patterns
-    #Copy-PatternToUSB -Pattern $PatternList.($Choice.Pattern) -Drive $Choice.Drive.Name
-    #Show-CopyResult -Drive $USBDrive -Pattern $PatternList.$Choice
 
 }
