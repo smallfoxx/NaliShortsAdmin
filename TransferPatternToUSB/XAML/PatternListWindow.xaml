@@ -22,7 +22,8 @@
             <Run FontSize="24" Foreground="#FFFC5185">Nalinu Pattern Copy</Run><LineBreak/>
             <Run>Select the pattern(s) and which USB to copy them to.</Run>
         </TextBlock>
-        <ListBox Name="ListPatterns" Grid.Row="1" Grid.ColumnSpan="6">
+        <ListBox Name="ListPatterns" Grid.Row="1" Grid.ColumnSpan="6"
+            FontSize="16">
             <ListBoxItem Content="data" />
             <ListBoxItem Content="data2" />
         </ListBox>
@@ -30,7 +31,8 @@
             <Run>Select USB Drive:</Run>
         </TextBlock>
         <ComboBox Name="ComboDrives" Grid.Row="2"
-            Grid.Column="2" Grid.ColumnSpan="4">
+            Grid.Column="2" Grid.ColumnSpan="4"
+            FontSize="16">
             <ComboBoxItem Content="D: Drive" />
         </ComboBox>
         <Button Name="ButtonOk" Content="Ok" Grid.Row="3"
