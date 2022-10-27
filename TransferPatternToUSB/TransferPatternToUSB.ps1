@@ -1,7 +1,8 @@
 param(
     [string]$PatternFolder=$PSScriptRoot,
     [string[]]$StandardFiles=@(),
-    [string]$WindowXAML="$PSScriptRoot\XAML\PatternListWindow.xaml"
+    [string]$WindowXAML="$PSScriptRoot\XAML\PatternListWindow.xaml",
+    [string[]]$Extensions=@('.pdf','.csv','.zip')
 )
 
 Begin {
@@ -11,7 +12,7 @@ Begin {
         )
 
         $Table = [ordered]@{}
-        Get-ChildItem $Path -Filter "*.csv" | Sort-Object -Property BaseName |
+        Get-ChildItem $Path | Where-Object { $_.Extension -in $Extensions } | Sort-Object -Property BaseName |
              ForEach-Object { 
                 $Table.($_.BaseName -replace "[_\-]"," ") = $_
             }
